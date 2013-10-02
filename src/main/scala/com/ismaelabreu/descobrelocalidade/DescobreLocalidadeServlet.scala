@@ -56,16 +56,19 @@ class Search(val params: (String) => String) {
     case e: Throwable => "NO"
   }
 
-  def runFullLettersMatch(): Vector[String] = {
+  def matchWordsLength(str: String): Boolean = str.split(" ").length == words
+
+  private def runFullLettersMatch(): Vector[String] = {
     val indexes = for {
       (l, i) <- normalizedLocations.zipWithIndex
       if l == normalizedLetters
     } yield i
 
-    indexes.map(locations(_))
+    indexes.map(locations(_)).filter(matchWordsLength)
   }
 
-  def runPartialLettersMatch(): Vector[String] = {
+  private def runPartialLettersMatch(): Vector[String] = {
+    // TODO
     Vector("partial")
   }
 
